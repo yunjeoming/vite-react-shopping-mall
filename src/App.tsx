@@ -5,6 +5,7 @@ import { getClient } from "./queryClient";
 import { routes } from "./routes";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "./scss/index.scss";
+import Gnb from "./components/products/gnb";
 
 const App = () => {
   const elem = useRoutes(routes);
@@ -12,6 +13,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Gnb />
       {elem}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
