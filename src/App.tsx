@@ -5,7 +5,7 @@ import { getClient } from "./queryClient";
 import { routes } from "./routes";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "./scss/index.scss";
-import Gnb from "./components/products/gnb";
+import Gnb from "./components/gnb";
 
 const App = () => {
   const elem = useRoutes(routes);
