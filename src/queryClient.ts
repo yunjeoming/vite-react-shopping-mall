@@ -1,12 +1,6 @@
-import request from "graphql-request";
-import { RequestDocument } from "graphql-request/dist/types";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
+import request from 'graphql-request';
+import { RequestDocument } from 'graphql-request/dist/types';
+import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from 'react-query';
 
 type AnyOBJ = { [key: string]: any };
 
@@ -18,8 +12,8 @@ export const getClient = (() => {
       client = new QueryClient({
         defaultOptions: {
           queries: {
-            cacheTime: 1000 * 60 * 60 * 24,
-            staleTime: 1000 * 60,
+            cacheTime: Infinity,  // 전체적인 옵션.
+            staleTime: Infinity,
             refetchOnMount: false,
             refetchOnReconnect: false,
             refetchOnWindowFocus: false,
@@ -30,7 +24,7 @@ export const getClient = (() => {
   };
 })();
 
-const BASE_URL = "/";
+const BASE_URL = '/';
 
 export const restFetcher = async ({
   method,
@@ -38,7 +32,7 @@ export const restFetcher = async ({
   body,
   params,
 }: {
-  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   path: string;
   body?: AnyOBJ;
   params?: AnyOBJ;
@@ -48,13 +42,13 @@ export const restFetcher = async ({
     const fetchOptions: RequestInit = {
       method,
       headers: {
-        "Content-type": "application/json",
-        "Access-Control-Allow-Origin": BASE_URL,
+        'Content-type': 'application/json',
+        'Access-Control-Allow-Origin': BASE_URL,
       },
     };
     if (params) {
       const searchParams = new URLSearchParams(params);
-      url += "?" + searchParams.toString();
+      url += '?' + searchParams.toString();
     }
 
     if (body) fetchOptions.body = JSON.stringify(body);
@@ -70,5 +64,6 @@ export const restFetcher = async ({
 export const graphqlFetcher = (query: RequestDocument, variables = {}) => request(BASE_URL, query, variables);
 
 export const QueryKeys = {
-  PRODUCTS: "PRODUCTS",
+  PRODUCTS: 'PRODUCTS',
+  CART: 'CART',
 };

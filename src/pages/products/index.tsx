@@ -14,8 +14,6 @@ const ProductList = () => {
     // })
   );
 
-  console.log(data);
-
   return (
     <div>
       <h2>상품목록</h2>
