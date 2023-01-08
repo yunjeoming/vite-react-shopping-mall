@@ -2,7 +2,7 @@ import { gql } from "graphql-tag";
 
 export type Product = {
   id: string;
-  imageURl: string;
+  imageUrl: string;
   price: number;
   title: string;
   description: string;
@@ -16,7 +16,7 @@ export type Products = {
 const GET_PRODUCTS = gql`
   query GET_PRODUCTS {
     id
-    imageURl
+    imageUrl
     price
     title
     description
@@ -27,7 +27,7 @@ const GET_PRODUCTS = gql`
 export const GET_PRODUCT = gql`
   query GET_PRODUCT($id: string) {
     id
-    imageURl
+    imageUrl
     price
     title
     description

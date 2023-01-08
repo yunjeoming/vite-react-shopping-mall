@@ -5,7 +5,7 @@ const ProductDetail = ({
   item: {
     title,
     price,
-    imageURl,
+    imageUrl,
     description,
   },
 }: {
@@ -14,7 +14,7 @@ const ProductDetail = ({
   return (
     <div className="product-detail">
       <p className="product-detail__title">{title}</p>
-      <img className="product-detail__image" src={imageURl} />
+      <img className="product-detail__image" src={imageUrl} />
       <p className="product-detail__description">{description}</p>
       <span className="product-detail__price">{price}</span>
     </div>
