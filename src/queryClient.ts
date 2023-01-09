@@ -13,7 +13,7 @@ export const getClient = (() => {
         defaultOptions: {
           queries: {
             cacheTime: Infinity,  // 전체적인 옵션.
-            staleTime: Infinity,
+            staleTime: Infinity,  // 옛 데이터로 인식하는 시간
             refetchOnMount: false,
             refetchOnReconnect: false,
             refetchOnWindowFocus: false,
