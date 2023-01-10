@@ -1,6 +1,7 @@
 import React, { ForwardedRef, forwardRef, SyntheticEvent } from 'react';
 import { Query, useMutation } from 'react-query';
 import { CartType, DELETE_CART, UPDATE_CART } from '../../graphql/cart';
+import ItemData from '../../pages/cart/itemData';
 import { getClient, graphqlFetcher, QueryKeys } from '../../queryClient';
 
 const CartItem = ({ id, imageUrl, price, title, amount }: CartType, ref: ForwardedRef<HTMLInputElement>) => {
@@ -50,10 +51,8 @@ const CartItem = ({ id, imageUrl, price, title, amount }: CartType, ref: Forward
   };
   return (
     <li className="cart-item">
-      <input className="cart-item__checkbox" type="checkbox" name={`select-item`} ref={ref} />
-      <img className="cart-item__image" src={imageUrl} />
-      <p className="cart-item__price">{price}</p>
-      <p className="cart-item__title">{title}</p>
+      <input className="cart-item__checkbox" type="checkbox" name={`select-item`} ref={ref} data-id={id} />
+      <ItemData imageUrl={imageUrl} price={price} title={title} />
       <input type="number" className="cart-item__amount" value={amount} onChange={handleUpdateAmount} min="1" />
       <button type="button" className="cart-item__button" onClick={handleDeleteItem}>
         삭제
