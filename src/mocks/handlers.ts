@@ -9,7 +9,7 @@ import { ADD_CART, CartType, DELETE_CART, GET_CART, UPDATE_CART } from '../graph
 const mockProducts = (() =>
   Array.from({ length: 20 }).map((_, i) => ({
     id: i + 1 + '',
-    imageUrl: `https://placeimg.com/200/150/${i + 1}`,
+    imageUrl: `https://picsum.photos/id/${i + 15}/200/150/`,
     price: 50000,
     title: `임시상품${i + 1}`,
     description: `임시상세내용${i + 1}`,
@@ -68,7 +68,10 @@ export const handlers = [
     cartData = newData;
     return res(ctx.data(id));
   }),
-  graphql.mutation(EXECUTE_PAY, ({ variables }, res, ctx) => {
-    console.log(variables);
+  graphql.mutation(EXECUTE_PAY, ({ variables: ids }, res, ctx) => {
+    ids.forEach((id: string) => {
+      delete cartData[id]
+    })
+    return res(ctx.data(ids));
   }),
 ];
