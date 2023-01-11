@@ -14,8 +14,8 @@ const WillPay = ({ submitTitle, handleSubmit }: { submitTitle: string; handleSub
     <div className="cart-willpay">
       <ul>
         {checkedItems.map(({ imageUrl, price, title, id, amount }) => (
-          <li>
-            <ItemData key={id} imageUrl={imageUrl} price={price} title={title} />
+          <li key={id}>
+            <ItemData imageUrl={imageUrl} price={price} title={title} />
             <p>수량 : {amount}</p>
             <p>금액 : {price * amount}</p>
           </li>

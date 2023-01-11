@@ -1,3 +1,4 @@
+import { EXECUTE_PAY } from './../graphql/payment';
 import { GET_PRODUCT } from './../graphql/products';
 import { graphql } from 'msw';
 import { QueryKeys } from '../queryClient';
@@ -66,5 +67,8 @@ export const handlers = [
     delete newData[id];
     cartData = newData;
     return res(ctx.data(id));
+  }),
+  graphql.mutation(EXECUTE_PAY, ({ variables }, res, ctx) => {
+    console.log(variables);
   }),
 ];
