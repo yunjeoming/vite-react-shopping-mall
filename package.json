@@ -9,7 +9,8 @@
     "client",
     "server"
   ],
-  "scripts":{
-    "client": "yarn workspace client dev"
+  "scripts": {
+    "client": "yarn workspace client dev",
+    "server": "yarn workspace server dev"
   }
 }
