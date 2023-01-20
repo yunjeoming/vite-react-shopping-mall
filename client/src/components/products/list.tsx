@@ -2,12 +2,16 @@ import React from 'react';
 import { Product } from '../../graphql/products';
 import ProductItem from './item';
 
-const ProductList = ({ products }: { products: Product[] }) => {
+const ProductList = ({ list }: { 
+  list: {
+    products: Product[]
+  }[]
+}) => {
   return (
     <ul className="products">
-      {products.map((product) => (
+      {list.map(page => page.products.map((product) => (
         <ProductItem {...product} key={product.id} />
-      ))}
+      )))}
     </ul>
   );
 };

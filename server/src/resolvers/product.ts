@@ -4,8 +4,9 @@ import { Resolvers } from './types';
 
 const productResolver: Resolvers = {
   Query: {
-    products: (parent, args, { db }, info) => {
-      return db.products;
+    products: (parent, { cursor = '' }, { db }, info) => {
+      const fromIndex = db.products.findIndex(product => product.id === cursor) + 1;
+      return db.products.slice(fromIndex, fromIndex + 15) || [];
     },
     product: (parent, { id }, { db }, info) => {
       const found = db.products.find((p) => p.id === id);
