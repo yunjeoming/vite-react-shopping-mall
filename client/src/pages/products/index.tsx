@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useInfiniteQuery, useQuery } from 'react-query';
 import useIntersection from '../../components/hooks/useIntersection';
+import ProductItem from '../../components/products/item';
 import ProductList from '../../components/products/list';
 import GET_PRODUCTS, { Products } from '../../graphql/products';
 import { graphqlFetcher, QueryKeys } from '../../queryClient';
@@ -10,7 +11,7 @@ const ProductListPage = () => {
   const intersecting = useIntersection(fetchMoreRef);
 
   const { data, isSuccess, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<Products>(
-    QueryKeys.PRODUCTS,
+    [QueryKeys.PRODUCTS, 'products'],
     ({ pageParam = '' }) => graphqlFetcher(GET_PRODUCTS, { cursor: pageParam }),
     {
       getNextPageParam: (lastPage) => {
@@ -27,7 +28,7 @@ const ProductListPage = () => {
   return (
     <div>
       <h2>상품목록</h2>
-      <ProductList list={data?.pages || []} />
+      <ProductList list={data?.pages || []} Item={ProductItem} />
       <div ref={fetchMoreRef}></div>
     </div>
   );

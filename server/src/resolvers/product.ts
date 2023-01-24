@@ -8,9 +8,14 @@ const setJSON = (data: Products) => writeDB(DBField.PRODUCTS, data);
 
 const productResolver: Resolvers = {
   Query: {
-    products: (parent, { cursor = '' }, { db }, info) => {
-      const fromIndex = db.products.findIndex((product) => product.id === cursor) + 1;
-      return db.products.slice(fromIndex, fromIndex + 15) || [];
+    products: (parent, { cursor = '', showDeleted = false }, { db }, info) => {
+      const [hasCreatedAt, noCreatedAt] = [
+        db.products.filter(product => !!product.createdAt).sort((a,b) => b.createdAt! - a.createdAt!),
+        db.products.filter(product => !product.createdAt)
+      ];
+      const filteredDB = showDeleted ? [...hasCreatedAt, ...noCreatedAt] : hasCreatedAt;
+      const fromIndex = filteredDB.findIndex((product) => product.id === cursor) + 1;
+      return filteredDB.slice(fromIndex, fromIndex + 15) || [];
     },
     product: (parent, { id }, { db }, info) => {
       const found = db.products.find((p) => p.id === id);
