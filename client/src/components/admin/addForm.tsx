@@ -1,19 +1,17 @@
 import React, { SyntheticEvent } from 'react';
 import { useMutation } from 'react-query';
-import { ADD_PRODUCT, Product, Products } from '../../graphql/products';
+import { ADD_PRODUCT, MutableProduct } from '../../graphql/products';
 import { getClient, graphqlFetcher, QueryKeys } from '../../queryClient';
 import arrToObj from '../../util/arrToObj';
-import ProductDetail from '../products/detail';
-
-type OmittedProduct = Omit<Product, 'id' | 'creatdAt'>;
 
 const AddForm = () => {
   const queryClient = getClient();
   const { mutate: addProduct } = useMutation(
-    ({ title, imageUrl, price, description }: OmittedProduct) =>
+    ({ title, imageUrl, price, description }: MutableProduct) =>
       graphqlFetcher(ADD_PRODUCT, { title, imageUrl, price, description }),
     {
       onSuccess: () => {
+        // 응답을 다시 하지 않고 서버에 다시 요청하여 상세 동기화를 맞추는 방식
         queryClient.invalidateQueries(QueryKeys.PRODUCTS, { exact: false, refetchInactive: true });
       },
     }
@@ -24,7 +22,7 @@ const AddForm = () => {
     const formData = arrToObj([...new FormData(e.target as HTMLFormElement)]);
     formData.price = Number(formData.price);
 
-    addProduct(formData as OmittedProduct);
+    addProduct(formData as MutableProduct);
   };
 
   return (

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useInfiniteQuery, useQuery } from 'react-query';
 import useIntersection from '../../components/hooks/useIntersection';
-import ProductItem from '../../components/products/item';
 import ProductList from '../../components/products/list';
 import GET_PRODUCTS, { Products } from '../../graphql/products';
 import { graphqlFetcher, QueryKeys } from '../../queryClient';
@@ -28,7 +27,7 @@ const ProductListPage = () => {
   return (
     <div>
       <h2>상품목록</h2>
-      <ProductList list={data?.pages || []} Item={ProductItem} />
+      <ProductList list={data?.pages || []} />
       <div ref={fetchMoreRef}></div>
     </div>
   );
