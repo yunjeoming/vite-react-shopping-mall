@@ -13,17 +13,19 @@ const CartList = ({ items }: { items: CartType[] }) => {
   const [formData, setFormData] = useState<FormData>();
   const navigate = useNavigate();
 
+  const enableItems = items.filter(item => item.product.createdAt);
+
   const setAllCheckedFromItems = () => {
     if (!formRef.current) return;
     const data = new FormData(formRef.current);
     const selectedCount = data.getAll('select-item').length;
-    const allchecked = selectedCount === items.length;
+    const allchecked = selectedCount === enableItems.length;
     formRef.current.querySelector<HTMLInputElement>('.select-all')!.checked = allchecked;
   };
 
   const setItemsCheckedFromAll = (targetInput: HTMLInputElement) => {
     const allChecked = targetInput.checked;
-    checkboxRefs.forEach((elem) => {
+    checkboxRefs.filter(elem => !elem.current!.disabled).forEach((elem) => {
       elem.current!.checked = allChecked;
     });
   };

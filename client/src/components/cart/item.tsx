@@ -5,7 +5,7 @@ import ItemData from './itemData';
 import { getClient, graphqlFetcher, QueryKeys } from '../../queryClient';
 
 const CartItem = (
-  { id, product: { imageUrl, price, title }, amount }: CartType,
+  { id, product: { imageUrl, price, title, createdAt }, amount }: CartType,
   ref: ForwardedRef<HTMLInputElement>
 ) => {
   const queryClient = getClient();
@@ -55,9 +55,9 @@ const CartItem = (
   };
   return (
     <li className='cart-item'>
-      <input className='cart-item__checkbox' type='checkbox' name={`select-item`} ref={ref} data-id={id} />
+      <input className='cart-item__checkbox' type='checkbox' name={`select-item`} ref={ref} data-id={id} disabled={!createdAt} />
       <ItemData imageUrl={imageUrl} price={price} title={title} />
-      <input type='number' className='cart-item__amount' value={amount} onChange={handleUpdateAmount} min='1' />
+      {!createdAt ? <span>삭제된 상품</span> : <input type='number' className='cart-item__amount' value={amount} onChange={handleUpdateAmount} min='1' />}
       <button type='button' className='cart-item__button' onClick={handleDeleteItem}>
         삭제
       </button>

@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
-import { MutableProduct, Product, UPDATE_PRODUCT } from '../../graphql/products';
+import { DELETE_PRODUCT, MutableProduct, Product, UPDATE_PRODUCT } from '../../graphql/products';
 import { getClient, graphqlFetcher, QueryKeys } from '../../queryClient';
 import arrToObj from '../../util/arrToObj';
 
@@ -33,6 +33,13 @@ const AdminItem = ({
     }
   );
 
+  const { mutate: deleteProduct } = useMutation(({ id }: { id: string }) => graphqlFetcher(DELETE_PRODUCT, { id }), {
+    onSuccess: () => {
+      // 응답을 다시 하지 않고 서버에 다시 요청하여 상세 동기화를 맞추는 방식
+      queryClient.invalidateQueries(QueryKeys.PRODUCTS, { exact: false, refetchInactive: true });
+    },
+  });
+
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const formData = arrToObj([...new FormData(e.target as HTMLFormElement)]);
@@ -41,27 +48,31 @@ const AdminItem = ({
     updateProduct(formData as MutableProduct);
   };
 
+  const deleteItem = () => {
+    deleteProduct({ id });
+  };
+
   if (isEditing)
     return (
       <li className='product-item'>
         <form onSubmit={handleSubmit}>
-        <label>
-          {' '}
-          상품명: <input name='title' type='text' required defaultValue={title} />
-        </label>
-        <label>
-          {' '}
-          이미지URL: <input name='imageUrl' type='text' required defaultValue={imageUrl} />
-        </label>
-        <label>
-          {' '}
-          상품가격: <input name='price' type='number' min='1000' required defaultValue={price} />
-        </label>
-        <label>
-          {' '}
-          상세: <textarea name='description' defaultValue={description} />
-        </label>
-        <button type='submit'>저장</button>
+          <label>
+            {' '}
+            상품명: <input name='title' type='text' required defaultValue={title} />
+          </label>
+          <label>
+            {' '}
+            이미지URL: <input name='imageUrl' type='text' required defaultValue={imageUrl} />
+          </label>
+          <label>
+            {' '}
+            상품가격: <input name='price' type='number' min='1000' required defaultValue={price} />
+          </label>
+          <label>
+            {' '}
+            상세: <textarea name='description' defaultValue={description} />
+          </label>
+          <button type='submit'>저장</button>
         </form>
       </li>
     );
@@ -75,6 +86,9 @@ const AdminItem = ({
       {!createdAt && <span>삭제된 상품</span>}
       <button className='product-item__add-cart' onClick={startEdit}>
         수정
+      </button>
+      <button className='product-item__delete-cart' onClick={deleteItem}>
+        삭제
       </button>
     </li>
   );

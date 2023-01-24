@@ -1,6 +1,14 @@
 [
   {
-    "id": "2",
-    "amount": 6
+    "id": "7c9513c5-1dbc-426f-ac70-4e7eafc68430",
+    "amount": 1,
+    "product": {
+      "id": "7c9513c5-1dbc-426f-ac70-4e7eafc68430",
+      "imageUrl": "https://picsum.photos/id/96/200/150",
+      "price": 6000,
+      "title": "임시상품96",
+      "description": "임시상세내용96",
+      "createdAt": 1673251502669
+    }
   }
 ]
